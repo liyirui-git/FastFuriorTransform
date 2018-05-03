@@ -143,7 +143,6 @@ void fastFuriorTransform(Mat image) {
 
 				}
 			}
-			//------------此处有点浪费时间，很多次写入与读出
 			//用newRow来更新resultE中的值
 			for (int j = 0; j < lengthC; j++) {
 				int n = j + r*lengthC;
@@ -173,7 +172,6 @@ void fastFuriorTransform(Mat image) {
 					}
 				}
 			}
-
 			//用newColum来更新resultE中的值
 			for (int j = 0; j < lengthR; j++) {
 				int n = j*lengthC + c;
@@ -181,7 +179,6 @@ void fastFuriorTransform(Mat image) {
 			}
 			newColum.clear();
 		}
-
 	}
 
 	//结果存入一个vector<float>中
@@ -232,12 +229,11 @@ void fastFuriorTransform(Mat image) {
 	
 	imwrite("fft.jpg", fftResult);
 	imshow("fft", fftResult);
-
-	waitKey();
 }
 
 int main(void) {
 	char imagePath[256];
+	time_t start, end;
 	printf("Please input the path of the image :(No more than 255 words)\n");
 	//Attention, this place may have some overflow problems.
 	cin.getline(imagePath, 256);
@@ -250,7 +246,12 @@ int main(void) {
 		inputImage = imread(imagePath, 0);
 	}
 
+	time(&start);
 	fastFuriorTransform(inputImage);
+	time(&end);
+	printf("Total Cost: %fs\n", difftime(end, start));
+
+	waitKey();
 
 	return 0;
 }
